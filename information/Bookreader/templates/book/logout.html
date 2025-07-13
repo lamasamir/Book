@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout - Bookstore{% endblock %}
+
+{% block content %}
+<div class="logout-container">
+    <div class="logout-box">
+        <h1>You’ve been logged out</h1>
+        <p>We hope to see you again soon 📚</p>
+        <a href="{% url 'login' %}" class="btn">Log in again</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Optional: Dark/Light mode toggle if it's not already in base.html
+    // This example assumes you’re managing dark mode at body level
+    const modeToggle = document.getElementById('mode-toggle');
+    if (modeToggle) {
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
+        });
+    }
+</script>
+{% endblock %}
+

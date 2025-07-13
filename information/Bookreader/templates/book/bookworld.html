@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="mt-6 px-6 py-12 bg-purple-50 rounded-xl">
+
+    <h2 class="mb-10 text-3xl font-bold text-center text-purple-900 bg-purple-200 py-4 rounded flexitems-center justify-center">
+        <img src="../media/book store.webp" alt= "book store logo" class="h-10 w-10 object-contain mr-1">
+        <span class="text-3xl md:text-3xl font-bold mt-auto">Samir Book Store</span>
+    </h2>
+
+    <!-- Insert Button -->
+     {% if request.user.is_staff or request.user.is_superuser %}
+    <div class="text-center mb-8">
+        <a href="{% url 'insert_book' %}" class="px-6 py-3 bg-blue-500 text-white text-lg font-medium rounded-md hover:bg-green-600 transition duration-200">
+            Insert New Book
+        </a>
+    </div>
+    {% endif %}
+  
+    <!-- Grid Layout with 4 Columns on Large Screens -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for book in books %}
+
+        <div class="bg-purple-100 rounded-xl shadow hover:shadow-md transition overflow-hidden">
+            {% if book.book_coverimage %}
+            <a href=" {% url "bookdetails" id=book.id %}">
+                <img src="{{ book.book_coverimage.url }}"  alt="Cover image for {{ book.title }}" class="w-full h-40 object-cover">
+            </a>
+            {% else %}
+                <div class="w-full h-60 flex items-center justify-center bg-gray-200 text-gray-500">
+                    No image available
+                </div>
+            {% endif %}
+
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-800">{{ book.title }}</h3>
+                <p class="text-gray-600 mt-1 text-sm">Genre: {{ book.genre }}</p>
+
+                <!-- Edit/Delete Buttons -->
+
+                
+                {% if request.user.is_staff or request.user.is_superuser %}   
+                <div class="mt-4 flex space-x-3">
+                    <a href="{% url 'edit_books' book.id %}" class="px-4 py-2 text-sm bg-yellow-400 text-white rounded hover:bg-yellow-500 transition">Edit</a>
+
+                    <form method="POST" action="{% url 'delete_books' book.id %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                                onclick="return confirm('Are you sure you want to delete this book?');"
+                                class="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
